@@ -22,5 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['controller'=>CategoryController::class], function(){
     Route::get('/categories', 'index');
     Route::post('/categories', 'store');
-    Route::post('/categories/{id}', 'show');
+    Route::get('/categories/{id}', 'show');
+    Route::put('/categories/{id}', 'update');
+    Route::delete('/categories/{id}', 'destroy');
 });

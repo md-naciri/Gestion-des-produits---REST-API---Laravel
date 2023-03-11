@@ -30,7 +30,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        Category::create($request->all());
+        $category = Category::create($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => 'category created sucessfully',
+            'category' => $category->name,
+        ]);
     }
 
     /**
@@ -39,9 +44,13 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-
+        $category = Category::findOrFail($id);
+        return response()->json([
+            'status' => true,
+            'categories' => $category->name,
+        ]);
     }
 
     /**
@@ -51,9 +60,15 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->update($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => 'Category updated successfully',
+            'category' => $category->name,
+        ]);
     }
 
     /**
@@ -62,8 +77,12 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        Category::destroy($id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Category deleted successfully',
+        ]);
     }
 }
