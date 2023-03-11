@@ -68,7 +68,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
         $product = Product::findOrFail($id);
+        if(!$user->can('update every product') && $user->id != $product->user_id){
+            return response()->json(['message' => "You can't edit this product"]);
+        }
         $product->update($request->all());
         return response()->json([
             'status' => true,
@@ -85,12 +89,17 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $product = Product::destroy($id);
+        $product = Product::findOrFail($id);
         if(!$product){
             return response()->json([
                 'message' => 'This product doesn\'t exist'
             ]);
         }
+        $user = Auth::user();
+        if(!$user->can('delete every product') && $user->id != $product->user_id){
+            return response()->json(['message' => "You can't delete this product"]);
+        }
+        Product::destroy($id);
         return response()->json([
             'status' => true,
             'message' => 'Product deleted successfully',
