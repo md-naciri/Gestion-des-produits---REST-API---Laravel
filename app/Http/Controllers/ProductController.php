@@ -14,7 +14,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+        return response()->json([
+            'status' => true,
+            'products' => $products
+        ]);
     }
 
     /**
@@ -25,7 +29,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = $request->all(); 
+        Product::create($request->all());
+        return response()->json([
+            'status' => true,
+            'product' => $product 
+        ]);
     }
 
     /**
@@ -34,9 +43,19 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        //
+        $product = Product::find($id);
+        if(!$product){
+            return response()->json([
+                'message' => 'This product doesn\'t exist',
+    
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'product' => $product
+        ]);
     }
 
     /**

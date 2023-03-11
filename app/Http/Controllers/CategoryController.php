@@ -79,7 +79,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::destroy($id);
+        $category = Category::destroy($id);
+        if(!$category){
+            return response()->json([
+                'message' => 'Sorry this category doesn\'t exist'
+            ]);
+        }
         return response()->json([
             'status' => true,
             'message' => 'Category deleted successfully',
