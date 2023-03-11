@@ -39,6 +39,15 @@ class AuthenticationController extends Controller
             'email' => $user->email,
             'access_token' => $token,
         ]);
+    }
 
+    public function update(RegisterRequest $request, User $user)
+    {
+        $toUpdate = $request->all();
+        $toUpdate['password'] = Hash::make($request->password);
+        $user->update($toUpdate);
+        return response([
+            'message' => 'Profile updated successfully!'
+        ], 200);
     }
 }

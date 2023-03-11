@@ -26,7 +26,7 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
         Route::put('/categories/{id}', 'update');
         Route::delete('/categories/{id}', 'destroy');
     });
-    
+
     Route::group(['controller' => ProductController::class], function(){
         Route::get('/products', 'index');
         Route::post('/products', 'store');
@@ -35,9 +35,8 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
         Route::delete('/products/{id}', 'destroy');
     });
 
+    Route::put('/profile/{user}', [AuthenticationController::class, 'update']);
 });
-
-
 
 Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/login', [AuthenticationController::class, 'login']);

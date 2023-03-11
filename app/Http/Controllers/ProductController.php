@@ -31,7 +31,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        // return $user;
         $product = $request->all() + ['user_id'=>$user->id];
         Product::create($product);
         return response()->json([
@@ -52,7 +51,6 @@ class ProductController extends Controller
         if(!$product){
             return response()->json([
                 'message' => 'This product doesn\'t exist',
-    
             ]);
         }
         return response()->json([
