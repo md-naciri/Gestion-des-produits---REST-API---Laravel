@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,8 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
     });
 
     Route::put('/profile/{user}', [AuthenticationController::class, 'update']);
+
+    Route::post('/assignRole/{id}', [RoleController::class, 'assignRole'])->middleware('permission:assign role');
 });
 
 Route::post('/register', [AuthenticationController::class, 'register']);
