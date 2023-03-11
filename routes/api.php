@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
@@ -16,22 +17,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware'=>'auth:sanctum'], function(){
+
+    Route::group(['controller'=>CategoryController::class], function(){
+        Route::get('/categories', 'index');
+        Route::post('/categories', 'store');
+        Route::get('/categories/{id}', 'show');
+        Route::put('/categories/{id}', 'update');
+        Route::delete('/categories/{id}', 'destroy');
+    });
+    
+    Route::group(['controller' => ProductController::class], function(){
+        Route::get('/products', 'index');
+        Route::post('/products', 'store');
+        Route::get('/products/{id}', 'show');
+        Route::put('/products/{id}', 'update');
+        Route::delete('/products/{id}', 'destroy');
+    });
+
 });
 
-Route::group(['controller'=>CategoryController::class], function(){
-    Route::get('/categories', 'index');
-    Route::post('/categories', 'store');
-    Route::get('/categories/{id}', 'show');
-    Route::put('/categories/{id}', 'update');
-    Route::delete('/categories/{id}', 'destroy');
-});
 
-Route::group(['controller' => ProductController::class], function(){
-    Route::get('/products', 'index');
-    Route::post('/products', 'store');
-    Route::get('/products/{id}', 'show');
-    Route::put('/products/{id}', 'update');
-    Route::delete('/products/{id}', 'destroy');
-});
+
+Route::post('/register', [AuthenticationController::class, 'register']);
+Route::post('/login', [AuthenticationController::class, 'login']);

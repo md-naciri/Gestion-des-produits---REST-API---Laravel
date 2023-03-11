@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -29,8 +30,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = $request->all(); 
-        Product::create($request->all());
+        $user = Auth::user();
+        // return $user;
+        $product = $request->all() + ['user_id'=>$user->id];
+        Product::create($product);
         return response()->json([
             'status' => true,
             'product' => $product 
