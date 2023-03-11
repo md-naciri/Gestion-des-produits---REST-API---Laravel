@@ -65,9 +65,15 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => 'Product updated successfully',
+            'category' => $product,
+        ]);
     }
 
     /**
@@ -76,8 +82,17 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        $product = Product::destroy($id);
+        if(!$product){
+            return response()->json([
+                'message' => 'This product doesn\'t exist'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Product deleted successfully',
+        ]);
     }
 }

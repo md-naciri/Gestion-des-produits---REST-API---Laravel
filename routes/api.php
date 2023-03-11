@@ -32,4 +32,6 @@ Route::group(['controller' => ProductController::class], function(){
     Route::get('/products', 'index');
     Route::post('/products', 'store');
     Route::get('/products/{id}', 'show');
+    Route::put('/products/{id}', 'update');
+    Route::delete('/products/{id}', 'destroy');
 });
