@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,7 +41,19 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
 Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/login', [AuthenticationController::class, 'login']);
 
+
 Route::get('/categories', [CategoryController::class,'index']);
 Route::get('/categories/{id}', [CategoryController::class,'show']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
+
+Route::group(['controller' => ResetPasswordController::class], function (){
+    // Request password reset link
+    Route::post('forgot-password', 'link')->middleware('guest')->name('password.email');
+    // Reset password
+    Route::post('reset-password', 'resetPassword')->middleware('guest')->name('password.update');
+
+    Route::get('reset-password/{token}', function (string $token) {
+         return $token;
+     })->middleware('guest')->name('password.reset');
+});
