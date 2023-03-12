@@ -36,6 +36,7 @@ Route::group(['middleware'=>'auth:sanctum'], function(){
     Route::put('/profile/{user}', [AuthenticationController::class, 'update']);
 
     Route::post('/assignRole/{id}', [RoleController::class, 'assignRole'])->middleware('permission:assign role');
+    Route::post('/removeRole/{id}', [RoleController::class, 'removeRole'])->middleware('permission:assign role');
 });
 
 Route::post('/register', [AuthenticationController::class, 'register']);
