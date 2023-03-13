@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,17 @@ class ProductController extends Controller
             'product' => $product
         ]);
     }
+
+
+
+    public function getProductsByCategory($categoryName)
+    {
+        $category = Category::where('name', $categoryName)->firstOrFail();
+        $products = Product::where('category_id', $category->id)->get();
+        return response()->json($products);
+    }
+
+
 
     /**
      * Update the specified resource in storage.

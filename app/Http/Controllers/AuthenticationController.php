@@ -50,4 +50,6 @@ class AuthenticationController extends Controller
             'message' => 'Profile updated successfully!'
         ], 200);
     }
+
+    
 }
