@@ -23,13 +23,12 @@ class AuthenticationController extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer',
         ]);
-
     }
 
     public function login(LoginRequest $request)
     {
         if(!Auth::attempt($request->all())){
-            return response()->json(['error' => 'Invalid credentials', 401]);
+            return response()->json(['error' => 'Invalid credentials'], 401);
         }
         $user = auth()->user();
         $token = auth()->user()->createToken('auth_token')->plainTextToken;

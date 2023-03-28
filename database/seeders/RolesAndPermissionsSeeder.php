@@ -31,6 +31,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'update every product']);
 
         Permission::create(['name' => 'assign role']);
+        Permission::create(['name' => 'assign permission']);
 
         // this can be done as separate statements
         Role::create(['name' => 'admin'])->givePermissionTo(Permission::all());

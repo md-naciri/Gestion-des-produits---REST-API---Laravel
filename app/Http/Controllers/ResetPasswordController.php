@@ -42,7 +42,7 @@ class ResetPasswordController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-            ?response()->json(['message'=>'successful reset'])
+            ? response()->json(['message'=>'successful reset'])
             : response()->json(['message'=>'something went wrong']);
     }
 }
